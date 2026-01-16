@@ -1,28 +1,27 @@
 """Module for generating reports."""
 
-from .app import calculate_subtotal_km, count_store_visits, print_shop_visits
+import pandas as pd
+
+from .app import count_shop_visits, shop_distance
 
 
 def generate_report() -> None:
     """Generate and print a report."""
-    report: str = ""
+    report_data = {}
 
-    print("Generating report...\n")
+    report_data["Visit count"] = count_shop_visits()
+    report_data["Distance"] = shop_distance()
+    report_data["Subtotal km"] = {
+        shop: report_data["Visit count"][shop] * report_data["Distance"][shop]
+        for shop in report_data["Visit count"]
+    }
 
-    report += "Shop Visits:\n"
-    count_store_visits()
-    for item in count_store_visits():
-        report += f"{item.title()}: {count_store_visits()[item]}\n"
-    report += "\nKM Driven:\n\n"
-    subtotals = calculate_subtotal_km()
-    report += f"Hanos Km: {round(subtotals['hanos_km'])}\n"
-    report += f"Sligro Km: {round(subtotals['sligro_km'])}\n"
-    report += f"Makro Km: {round(subtotals['makro_km'])}\n"
-    report += f"Horeca Plus Km: {round(subtotals['horeca_plus_km'])}\n"
-    report += f"Eldee Km: {round(subtotals['eldee_km'])}\n"
-    report += "----------------------\n"
-    report += f"Total KM: {round(subtotals['total_km'])}\n"
-    print(report)
+    df = pd.DataFrame(report_data)
 
+    total = {
+        "Subtotal km": sum(report_data["Subtotal km"].values()),
+    }
 
-generate_report()
+    print(df)
+    print("------------------------------------------------")
+    print("Total: ", total["Subtotal km"], "KM")
