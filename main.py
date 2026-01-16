@@ -1,6 +1,6 @@
 """Simple KM declaration script."""
 
-from src.app import calculate_subtotal_km, print_shop_visits
+from src.reports import generate_report
 
 if __name__ == "__main__":
-    ...
+    generate_report()
