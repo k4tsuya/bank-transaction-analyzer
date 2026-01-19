@@ -16,14 +16,6 @@ makro: str = "Makro Nuth"
 horeca_plus: str = "Horeca-Plus Nuth"
 eldee: str = "BCK*Eldee Pak Pak"
 
-shop_list: list[str] = [
-    hanos,
-    sligro,
-    makro,
-    horeca_plus,
-    eldee,
-]
-
 
 def count_shop_visits() -> dict[str, int]:
     """Count visits to each store in the shop list."""
@@ -35,17 +27,18 @@ def count_shop_visits() -> dict[str, int]:
         "Eldee": 0,
     }
 
-    # item[9] contains the carrier terminal name.
     for item in bank_data:
-        if item[9] == hanos:
+        terminal_name = item[9]
+
+        if terminal_name == hanos:
             store_count["Hanos"] += 1
-        elif item[9] == sligro:
+        elif terminal_name == sligro:
             store_count["Sligro"] += 1
-        elif item[9] == makro:
+        elif terminal_name == makro:
             store_count["Makro"] += 1
-        elif item[9] == horeca_plus:
+        elif terminal_name == horeca_plus:
             store_count["Horeca-Plus"] += 1
-        elif item[9] == eldee:
+        elif terminal_name == eldee:
             store_count["Eldee"] += 1
 
     return store_count
@@ -53,7 +46,7 @@ def count_shop_visits() -> dict[str, int]:
 
 def shop_distance() -> dict[str, float]:
     """Calculate the round-trip distance to each shop."""
-    roundtrip = 2
+    roundtrip = 2  # round trip multiplier
 
     distance: dict[str, float] = {
         "Hanos": round(6.0 * roundtrip),
