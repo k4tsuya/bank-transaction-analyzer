@@ -119,9 +119,9 @@ def purchase_dates(shop_name: str) -> dict[str, list[dict[str, str]]]:
         ):
             details[shop_name].append(
                 {
-                    "date": date,
-                    "debit_credit": debit_credit,
-                    "transaction_id": transaction_id,
+                    "Date": date,
+                    "Debit/Credit": debit_credit,
+                    "Transaction ID": transaction_id,
                 },
             )
 

@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from .app import count_shop_visits, shop_distance, purchase_dates
+from .app import count_shop_visits, purchase_dates, shop_distance
 
 
 def generate_report() -> str:
@@ -25,13 +25,9 @@ def generate_report() -> str:
     data = ""
 
     with open("report.txt", "w") as f:
-        data += "KM Declaration Report\n"
-        data += "_" * 50 + "\n"
-        data += f"{df.to_string(justify='right')}\n"
-        data += "_" * 50 + "\n"
-        data += f"Total KM: {total['Subtotal km']} KM\n"
+        f.write("_" * 50 + "\n\n")
         f.write("KM Declaration Report\n")
-        f.write("_" * 50 + "\n")
+        f.write("_" * 50 + "\n\n")
         f.write(f"{df.to_string(justify='right')}\n")
         f.write("_" * 50 + "\n\n")
         f.write(f"Total KM: {total['Subtotal km']} KM\n")
@@ -39,12 +35,18 @@ def generate_report() -> str:
     return data
 
 
-def print_purchase_dates(shop_name: str) -> None:
-    """Print purchase dates for a given shop."""
-    print("--------------------------------------------------")
-    print(f"Purchase dates for {shop_name}:")
-    print("--------------------------------------------------\n")
-    for purchase in purchase_dates(shop_name)[shop_name]:
-        print(
-            f"Date: {purchase['date']}, Debit/Credit: {purchase['debit_credit']}, Transaction ID: {purchase['transaction_id']}",
-        )
+def generate_purchase_report(
+    shop_name: str,
+) -> dict[str, list[dict[str, str]]]:
+    """Generate and print a purchase report for a specific shop."""
+    report_data = {shop_name: purchase_dates(shop_name)[shop_name]}
+
+    df = pd.DataFrame(report_data[shop_name])
+
+    with open(f"{shop_name.lower()}_purchase_report.txt", "w") as f:
+        f.write("_" * 50 + "\n\n")
+        f.write(f"{shop_name} Purchase Report\n")
+        f.write("_" * 50 + "\n\n")
+        f.write(f"{df.to_string(index=False, justify='right')}\n")
+
+    return report_data

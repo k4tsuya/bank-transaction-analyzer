@@ -1,7 +1,10 @@
 """Simple KM declaration script."""
 
 from src.app import purchase_dates
-from src.reports import generate_report, print_purchase_dates
+from src.reports import (
+    generate_report,
+    generate_purchase_report,
+)
 
 if __name__ == "__main__":
-    # generate_report()
+    generate_report()

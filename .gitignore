@@ -209,5 +209,5 @@ __marimo__/
 # Others
 
 bank_data.csv
-report.txt
+*report.txt
 .devcontainer
