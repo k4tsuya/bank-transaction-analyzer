@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from .app import count_shop_visits, shop_distance
+from .app import count_shop_visits, shop_distance, purchase_dates
 
 
 def generate_report() -> str:
@@ -37,3 +37,14 @@ def generate_report() -> str:
         f.write(f"Total KM: {total['Subtotal km']} KM\n")
 
     return data
+
+
+def print_purchase_dates(shop_name: str) -> None:
+    """Print purchase dates for a given shop."""
+    print("--------------------------------------------------")
+    print(f"Purchase dates for {shop_name}:")
+    print("--------------------------------------------------\n")
+    for purchase in purchase_dates(shop_name)[shop_name]:
+        print(
+            f"Date: {purchase['date']}, Debit/Credit: {purchase['debit_credit']}, Transaction ID: {purchase['transaction_id']}",
+        )

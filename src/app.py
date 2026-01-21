@@ -105,6 +105,7 @@ def purchase_dates(shop_name: str) -> dict[str, list[dict[str, str]]]:
         date = item[4]
         terminal_name = item[9]
         transaction_id = item[15]
+        debit_credit = item[6]
 
         if terminal_name in (
             ShopTerminal.hanos,
@@ -114,7 +115,11 @@ def purchase_dates(shop_name: str) -> dict[str, list[dict[str, str]]]:
             ShopTerminal.eldee,
         ):
             details[shop_name].append(
-                {"date": date, "transaction_id": transaction_id},
+                {
+                    "date": date,
+                    "debit_credit": debit_credit,
+                    "transaction_id": transaction_id,
+                },
             )
 
     return details
