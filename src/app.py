@@ -107,12 +107,15 @@ def purchase_dates(shop_name: str) -> dict[str, list[dict[str, str]]]:
         transaction_id = item[15]
         debit_credit = item[6]
 
-        if terminal_name in (
-            ShopTerminal.hanos,
-            ShopTerminal.sligro,
-            ShopTerminal.makro,
-            ShopTerminal.horeca_plus,
-            ShopTerminal.eldee,
+        if (
+            (shop_name == "Hanos" and terminal_name == ShopTerminal.hanos)
+            or (shop_name == "Sligro" and terminal_name == ShopTerminal.sligro)
+            or (shop_name == "Makro" and terminal_name == ShopTerminal.makro)
+            or (
+                shop_name == "Horeca-Plus"
+                and terminal_name == ShopTerminal.horeca_plus
+            )
+            or (shop_name == "Eldee" and terminal_name == ShopTerminal.eldee)
         ):
             details[shop_name].append(
                 {
