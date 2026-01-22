@@ -1,11 +1,10 @@
-"""Module for generating reports."""
+"""Module for generating data from bank transactions."""
 
 import pandas as pd
-
 from .app import count_shop_visits, purchase_dates, shop_distance
 
 
-def generate_report() -> str:
+def generate_declaration_data() -> pd.DataFrame:
     """Generate and print a report."""
     report_data = {}
 
@@ -16,26 +15,10 @@ def generate_report() -> str:
         for shop in report_data["Visit count"]
     }
 
-    df = pd.DataFrame(report_data)
-
-    total = {
-        "Subtotal km": sum(report_data["Subtotal km"].values()),
-    }
-
-    data = ""
-
-    with open("report.txt", "w") as f:
-        f.write("_" * 50 + "\n\n")
-        f.write("KM Declaration Report\n")
-        f.write("_" * 50 + "\n\n")
-        f.write(f"{df.to_string(justify='right')}\n")
-        f.write("_" * 50 + "\n\n")
-        f.write(f"Total KM: {total['Subtotal km']} KM\n")
-
-    return data
+    return pd.DataFrame(report_data)
 
 
-def generate_purchase_report(
+def generate_purchase_data(
     shop_name: str,
 ) -> dict[str, list[dict[str, str]]]:
     """Generate and print a purchase report for a specific shop."""

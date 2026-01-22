@@ -211,3 +211,4 @@ __marimo__/
 bank_data.csv
 *report.txt
 .devcontainer
+*.pdf
