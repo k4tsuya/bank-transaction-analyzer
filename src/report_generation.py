@@ -2,9 +2,9 @@
 
 from fpdf import FPDF
 
-from src.data_generation import (
+from src.data_filter import (
     generate_declaration_data,
-    generate_purchase_data,
+    filter_purchase_data,
 )
 
 
@@ -42,7 +42,7 @@ def print_declaration_report() -> None:
 
 def print_purchase_report(shop_name: str) -> None:
     """Generate and print the purchase report as a PDF."""
-    df = generate_purchase_data(shop_name)
+    df = filter_purchase_data(shop_name)
 
     pdf = PDFReport()
     pdf.report = f"Purchase Summary Report - {shop_name}"
