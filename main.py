@@ -9,9 +9,11 @@ from src.data_filter import (
     generate_declaration_data,
 )
 from src.report_generation import (
-    print_declaration_report,
-    print_purchase_report,
+    print_bank_number_search,
     print_date_report,
+    print_declaration_report,
+    print_name_search,
+    print_purchase_report,
 )
 
 if __name__ == "__main__":
@@ -20,4 +22,6 @@ if __name__ == "__main__":
     # filter_date("2025-12-24")
     # print(filter_bank_number("936"))
     # filter_name("ma")
-    print_date_report("2025-12-24")
+    # print_date_report("2025-12-24")
+    # print_bank_number_search("936")
+    print_name_search("ma")

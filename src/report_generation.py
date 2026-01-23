@@ -1,13 +1,13 @@
 """Module for generating and printing reports."""
 
-from fpdf import FPDF, Align
+from fpdf import FPDF
 
 from src.data_filter import (
-    generate_declaration_data,
-    filter_purchase_data,
-    filter_date,
     filter_bank_number,
+    filter_date,
     filter_name,
+    filter_purchase_data,
+    generate_declaration_data,
 )
 
 
@@ -65,15 +65,16 @@ def print_date_report(purchase_date: str) -> None:
     df = filter_date(purchase_date)
 
     pdf = PDFReport()
-    pdf.report = f"Date Report - {purchase_date}"
+    pdf.report = f"Date Summary Report - {purchase_date}"
     pdf.add_page()
     pdf.set_font("Courier", size=8)
+    pdf.cell(0, 5, "_" * 60, ln=True)
 
     table = [
         ("IBAN", 35, "L"),
         ("Counter Party", 60, "L"),
         ("Amount", 15, "R"),
-        ("Description", 80, "L")[:10],
+        ("Description", 80, "L"),
     ]
 
     for title, width, _ in table:
@@ -87,3 +88,63 @@ def print_date_report(purchase_date: str) -> None:
 
     pdf.output("date_report.pdf")
     print("Date report generated: date_report.pdf")
+
+
+def print_bank_number_search(iban: str) -> None:
+    """Generate and print the bank number-specific report as a PDF."""
+    df = filter_bank_number(iban)
+
+    pdf = PDFReport()
+    pdf.report = f"Bank Number Search Result - ({iban})"
+    pdf.add_page()
+    pdf.set_font("Courier", size=8)
+    pdf.cell(0, 5, "_" * 60, ln=True)
+    table = [
+        ("IBAN", 35, "L"),
+        ("Date", 20, "L"),
+        ("Counter Party", 60, "L"),
+        ("Amount", 15, "R"),
+        ("Description", 80, "L"),
+    ]
+
+    for title, width, _ in table:
+        pdf.cell(width, 5, title, align="L")
+    pdf.ln()
+
+    for _, row in df.iterrows():
+        for title, width, align in table:
+            pdf.cell(width, 5, str(row[title])[:35], align=align)
+        pdf.ln()
+
+    pdf.output("bank_number_report.pdf")
+    print("Bank number report generated: bank_number_report.pdf")
+
+
+def print_name_search(name: str) -> None:
+    """Generate and print the name-specific report as a PDF."""
+    df = filter_name(name)
+
+    pdf = PDFReport()
+    pdf.report = f"Name Search Result - ({name})"
+    pdf.add_page()
+    pdf.set_font("Courier", size=8)
+    pdf.cell(0, 5, "_" * 60, ln=True)
+    table = [
+        ("IBAN", 35, "L"),
+        ("Name", 60, "L"),
+        ("Date", 20, "L"),
+        ("Amount", 15, "R"),
+        ("Description", 80, "L"),
+    ]
+
+    for title, width, _ in table:
+        pdf.cell(width, 5, title, align="L")
+    pdf.ln()
+
+    for _, row in df.iterrows():
+        for title, width, align in table:
+            pdf.cell(width, 5, str(row[title])[:35], align=align)
+        pdf.ln()
+
+    pdf.output("name_search_report.pdf")
+    print("Name search report generated: name_search_report.pdf")
