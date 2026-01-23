@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from .app import count_shop_visits, purchase_dates, shop_distance, bank_data
+from .app import bank_data, count_shop_visits, purchase_dates, shop_distance
 
 
 def generate_declaration_data() -> pd.DataFrame:
@@ -43,5 +43,29 @@ def filter_date(purchase_date: str) -> pd.DataFrame:
                 "Amount": amount,
                 "Description": description,
             }
+
+    return pd.DataFrame(data)
+
+
+def filter_bank_number(iban: str) -> pd.DataFrame:
+    """Filter bank data for a specific bank number."""
+    data = {iban: []}
+
+    for item in bank_data:
+        counter_party_iban = item[8]
+        date = item[4]
+        counter_party = item[9]
+        amount = item[6]
+        description = item[19]
+        if iban in counter_party_iban:
+            data[iban].append(
+                {
+                    "IBAN": counter_party_iban,
+                    "Date": date,
+                    "Counter Party": counter_party,
+                    "Amount": amount,
+                    "Description": description,
+                },
+            )
 
     return pd.DataFrame(data)
