@@ -48,21 +48,14 @@ This project automates that workflow by turning raw bank data into  **structured
 
 ## ▶️ Usage
 
-The application parses command-line arguments and generates reports based on the provided filters.
+Bank Transaction Analyzer is a **command-line tool** for analyzing Rabobank transaction CSV exports and generating financial reports.
+
+The application supports filtering transactions by  **name** ,  **IBAN** , and  **date range** , and can generate declaration-style reports based on the filtered data.
 
 At least one filtering or report-related option is recommended.
 
-<pre class="overflow-visible! px-0!" data-start="2249" data-end="2326"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(var(--sticky-padding-top)+9*var(--spacing))]"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre!"><span><span>
-</span><span>### Example commands</span><span>
+Use --help to see available options.
 
 ```md
-python main.py --name </span><span>"Snackbar Example"</span><span>
-</span></span></code></div></div></pre>
-
-<pre class="overflow-visible! px-0!" data-start="2328" data-end="2378"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(var(--sticky-padding-top)+9*var(--spacing))]"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-md"><span><span>python main.py --iban NL12RABO0123456789
-</span></span></code></div></div></pre>
-
-<pre class="overflow-visible! px-0!" data-start="2380" data-end="2474"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(var(--sticky-padding-top)+9*var(--spacing))]"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-md"><span><span>python main.py --name "Snackbar Example"
-</span></span></code></div></div></pre>
-
-<pre class="overflow-visible! px-0!" data-start="2476" data-end="2514"><div class="contain-inline-size rounded-2xl corner-superellipse/1.1 relative bg-token-sidebar-surface-primary"><div class="sticky top-[calc(var(--sticky-padding-top)+9*var(--spacing))]"><div class="absolute end-0 bottom-0 flex h-9 items-center pe-2"><div class="bg-token-bg-elevated-secondary text-token-text-secondary flex items-center gap-4 rounded-sm px-2 font-sans text-xs"></div></div></div><div class="overflow-y-auto p-4" dir="ltr"><code class="whitespace-pre! language-md"><span><span>python main.py --declaration</span></span></code></div></div></pre>
+python main.py --help
+```
