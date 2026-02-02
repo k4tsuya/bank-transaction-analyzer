@@ -2,7 +2,7 @@
 
 from fpdf import FPDF
 
-from src.data_filter import (
+from src.bank_transaction_analyzer.data_filter import (
     filter_bank_number,
     filter_dates,
     filter_name,
@@ -29,7 +29,7 @@ class PDFReport(FPDF):
             self.cell(0, 5, line, ln=True, align="L")
 
 
-def print_declaration_report() -> None:
+def generate_declaration_report() -> None:
     """Generate and print the declaration report as a PDF."""
     df = generate_declaration_data()
 
@@ -45,7 +45,7 @@ def print_declaration_report() -> None:
     print("Declaration report generated: km_declaration_report.pdf")
 
 
-def print_purchase_report(shop_name: str) -> None:
+def generate_purchase_report(shop_name: str) -> None:
     """Generate and print the purchase report as a PDF."""
     df = filter_purchase_data(shop_name)
 
@@ -56,11 +56,14 @@ def print_purchase_report(shop_name: str) -> None:
     pdf.cell(0, 5, "_" * 60)
     pdf.ln()
     pdf.add_table(df.to_string(index=False, justify="right"))
-    pdf.output("purchase_report.pdf")
-    print("Purchase report generated: purchase_report.pdf")
+    pdf.output(f"{shop_name}_purchase_report.pdf")
+    print(
+        f"Purchase report for {shop_name} has been generated: "
+        f"{shop_name}_purchase_report.pdf",
+    )
 
 
-def print_date_report(start_date: str, end_date: str | None) -> None:
+def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
     """Generate and print the date-specific report as a PDF."""
     df = filter_dates(start_date, end_date)
 
@@ -89,11 +92,14 @@ def print_date_report(start_date: str, end_date: str | None) -> None:
             pdf.cell(width, 5, str(row[title])[:60], align=align)
         pdf.ln()
 
-    pdf.output("date_report.pdf")
-    print("Date report generated: date_report.pdf")
+    pdf.output(f"{start_date}_{end_date}_report.pdf")
+    print(
+        "A report for the dates has been generated: "
+        f"{start_date}_{end_date}_report.pdf",
+    )
 
 
-def print_bank_number_search(iban: str) -> None:
+def generate_bank_number_results(iban: str) -> None:
     """Generate and print the bank number-specific report as a PDF."""
     df = filter_bank_number(iban)
 
@@ -119,11 +125,13 @@ def print_bank_number_search(iban: str) -> None:
             pdf.cell(width, 5, str(row[title])[:35], align=align)
         pdf.ln()
 
-    pdf.output("bank_number_report.pdf")
-    print("Bank number report generated: bank_number_report.pdf")
+    pdf.output(f"bank_number_{iban}_report.pdf")
+    print(
+        f"A report for bank number {iban} was generated: bank_number_{iban}_report.pdf"
+    )
 
 
-def print_name_search(name: str) -> None:
+def generate_name_results(name: str) -> None:
     """Generate and print the name-specific report as a PDF."""
     df = filter_name(name)
 
@@ -149,5 +157,5 @@ def print_name_search(name: str) -> None:
             pdf.cell(width, 5, str(row[title])[:35], align=align)
         pdf.ln()
 
-    pdf.output("name_search_report.pdf")
-    print("Name search report generated: name_search_report.pdf")
+    pdf.output(f"{name}_report.pdf")
+    print(f"A report for {name} has been generated as: {name}_report.pdf")

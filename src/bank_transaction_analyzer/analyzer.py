@@ -1,4 +1,4 @@
-"""Main application logic for KM declaration."""
+"""Main application logic."""
 
 import csv
 

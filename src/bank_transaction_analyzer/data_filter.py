@@ -2,7 +2,12 @@
 
 import pandas as pd
 
-from .app import bank_data, count_shop_visits, purchase_dates, shop_distance
+from src.bank_transaction_analyzer.analyzer import (
+    bank_data,
+    count_shop_visits,
+    purchase_dates,
+    shop_distance,
+)
 
 
 def generate_declaration_data() -> pd.DataFrame:
