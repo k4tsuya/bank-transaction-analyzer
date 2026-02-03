@@ -14,12 +14,12 @@ from src.bank_transaction_analyzer.data_filter import (
 class PDFReport(FPDF):
     """PDF Report Layout."""
 
-    report = ""
+    report_title = ""
 
     def header(self) -> None:
         """Create the header for the PDF report."""
         self.set_font("Courier", "B", 8)
-        self.cell(0, 10, f"{self.report}", ln=True, align="L")
+        self.cell(0, 10, f"{self.report_title}", ln=True, align="L")
 
     def add_table(self, data: str) -> None:
         """Add a table to the PDF report."""
@@ -36,7 +36,7 @@ def generate_declaration_report() -> None:
     total_km = df["Subtotal km"].sum()
 
     pdf = PDFReport()
-    pdf.report = "KM Declaration Report"
+    pdf.report_title = "KM Declaration Report"
     pdf.add_page()
     pdf.set_font("Courier", size=8)
     pdf.add_table(df.to_string(justify="right"))
@@ -48,14 +48,20 @@ def generate_declaration_report() -> None:
 def generate_purchase_report(shop_name: str) -> None:
     """Generate and print the purchase report as a PDF."""
     df = filter_purchase_data(shop_name)
+    entries = len(df)
 
     pdf = PDFReport()
-    pdf.report = f"Purchase Summary Report - {shop_name}"
+    pdf.report_title = f"Purchase Summary Report - {shop_name}"
     pdf.add_page()
+
     pdf.set_font("Courier", size=6)
     pdf.cell(0, 5, "_" * 60)
-    pdf.ln()
     pdf.add_table(df.to_string(index=False, justify="right"))
+
+    pdf.cell(0, 5, "_" * 60)
+    pdf.ln()
+    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+
     pdf.output(f"{shop_name}_purchase_report.pdf")
     print(
         f"Purchase report for {shop_name} has been generated: "
@@ -66,12 +72,14 @@ def generate_purchase_report(shop_name: str) -> None:
 def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
     """Generate and print the date-specific report as a PDF."""
     df = filter_dates(start_date, end_date)
+    entries = len(df)
 
     pdf = PDFReport()
-    pdf.report = (
+    pdf.report_title = (
         f"Date Summary Report  {start_date} - {end_date or start_date}"
     )
     pdf.add_page()
+
     pdf.set_font("Courier", size=6)
     pdf.cell(0, 5, "_" * 60, ln=True)
 
@@ -92,20 +100,33 @@ def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
             pdf.cell(width, 5, str(row[title])[:60], align=align)
         pdf.ln()
 
-    pdf.output(f"{start_date}_{end_date}_report.pdf")
-    print(
-        "A report for the dates has been generated: "
-        f"{start_date}_{end_date}_report.pdf",
-    )
+    pdf.cell(0, 5, "_" * 60)
+    pdf.ln()
+    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+
+    if end_date is None:
+        pdf.output(f"{start_date}_report.pdf")
+        print(
+            f"A report for the dates has been generated: {start_date}_report.pdf",
+        )
+    else:
+        pdf.output(f"{start_date}_{end_date}_report.pdf")
+        print(
+            "A report for the dates has been generated: "
+            f"{start_date}_{end_date}_report.pdf",
+        )
 
 
 def generate_bank_number_results(iban: str) -> None:
     """Generate and print the bank number-specific report as a PDF."""
     df = filter_bank_number(iban)
+    entries = len(df)
 
     pdf = PDFReport()
-    pdf.report = f"Bank Number Search Result - ({iban})"
+    pdf.report_title = f"Bank Number Search Result - ({iban})"
     pdf.add_page()
+    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+    pdf.ln()
     pdf.set_font("Courier", size=8)
     pdf.cell(0, 5, "_" * 60, ln=True)
     table = [
@@ -117,13 +138,17 @@ def generate_bank_number_results(iban: str) -> None:
     ]
 
     for title, width, _ in table:
-        pdf.cell(width, 5, title, align="L")
+        pdf.cell(width, 5, title, align="R")
     pdf.ln()
 
     for _, row in df.iterrows():
         for title, width, align in table:
             pdf.cell(width, 5, str(row[title])[:35], align=align)
         pdf.ln()
+
+    pdf.cell(0, 5, "_" * 60)
+    pdf.ln()
+    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
     pdf.output(f"bank_number_{iban}_report.pdf")
     print(
@@ -134,11 +159,14 @@ def generate_bank_number_results(iban: str) -> None:
 def generate_name_results(name: str) -> None:
     """Generate and print the name-specific report as a PDF."""
     df = filter_name(name)
+    entries = len(df)
 
     pdf = PDFReport()
-    pdf.report = f"Name Search Result - ({name})"
+    pdf.report_title = f"Name Search Result - ({name})"
     pdf.add_page()
-    pdf.set_font("Courier", size=8)
+
+    pdf.set_font("Courier", size=6)
+
     pdf.cell(0, 5, "_" * 60, ln=True)
     table = [
         ("IBAN", 35, "L"),
@@ -156,6 +184,10 @@ def generate_name_results(name: str) -> None:
         for title, width, align in table:
             pdf.cell(width, 5, str(row[title])[:35], align=align)
         pdf.ln()
+
+    pdf.cell(0, 5, "_" * 60)
+    pdf.ln()
+    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
     pdf.output(f"{name}_report.pdf")
     print(f"A report for {name} has been generated as: {name}_report.pdf")

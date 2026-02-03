@@ -1,7 +1,5 @@
 """Simple KM declaration script."""
 
-from numpy import var
-
 from src.bank_transaction_analyzer.analyzer import load_bank_data
 from src.bank_transaction_analyzer.cli import parse_args
 from src.bank_transaction_analyzer.report_generation import (
@@ -27,3 +25,5 @@ if __name__ == "__main__":
         generate_bank_number_results(args.iban)
     elif args.from_date and args.to_date:
         generate_date_filter_report(args.from_date, args.to_date)
+    elif args.from_date:
+        generate_date_filter_report(args.from_date, None)

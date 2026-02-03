@@ -14,7 +14,11 @@ def parse_args() -> argparse.Namespace:
         help="Loads the file of the Rabobank CSV export, by default it loads bank_data.csv",
     )
 
-    parser.add_argument("--declaration", help="Generate a declaration report")
+    parser.add_argument(
+        "--declaration",
+        action="store_true",
+        help="Generate a declaration report",
+    )
     parser.add_argument("--name", help="Filter and generate a report by name")
     parser.add_argument("--iban", help="Filter and generate a report by IBAN")
     parser.add_argument(
@@ -28,7 +32,7 @@ def parse_args() -> argparse.Namespace:
         "--to-date",
         help=(
             "Filter and generate a report by End date (YYYY-MM-DD) "
-            "NOTE: This can be combined with --from-date"
+            "NOTE: This can only be used with --from-date"
         ),
     )
 
