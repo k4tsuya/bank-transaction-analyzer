@@ -8,6 +8,7 @@ from src.bank_transaction_analyzer.data_filter import (
     filter_name,
     filter_purchase_data,
     generate_declaration_data,
+    generate_month_data,
 )
 
 
@@ -43,6 +44,38 @@ def generate_declaration_report() -> None:
     pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
     pdf.output("km_declaration_report.pdf")
     print("Declaration report generated: km_declaration_report.pdf")
+
+
+def generate_month_report(month: str) -> None:
+    """Generate and print the month declaration report as a PDF."""
+    df = generate_month_data(month)
+
+    months = {
+        "01": "January",
+        "02": "February",
+        "03": "March",
+        "04": "April",
+        "05": "May",
+        "06": "June",
+        "07": "July",
+        "08": "August",
+        "09": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December",
+    }
+    month_name = months[month]
+
+    total_km = df["Subtotal km"].sum()
+
+    pdf = PDFReport()
+    pdf.report_title = f"KM Declaration Report - {month_name}"
+    pdf.add_page()
+    pdf.set_font("Courier", size=8)
+    pdf.add_table(df.to_string(justify="right"))
+    pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
+    pdf.output("month_km_declaration_report.pdf")
+    print("Declaration report generated: month_km_declaration_report.pdf")
 
 
 def generate_purchase_report(shop_name: str) -> None:

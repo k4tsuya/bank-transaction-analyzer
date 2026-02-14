@@ -14,7 +14,21 @@ def generate_declaration_data() -> pd.DataFrame:
     """Generate and print a report."""
     report_data = {}
 
-    report_data["Visit count"] = count_shop_visits()
+    report_data["Visit count"] = count_shop_visits(month=None)
+    report_data["Distance"] = shop_distance()
+    report_data["Subtotal km"] = {
+        shop: report_data["Visit count"][shop] * report_data["Distance"][shop]
+        for shop in report_data["Visit count"]
+    }
+
+    return pd.DataFrame(report_data)
+
+
+def generate_month_data(month: str) -> pd.DataFrame:
+    """Generate and print a km declaration report of a specific month."""
+    report_data = {}
+
+    report_data["Visit count"] = count_shop_visits(month)
     report_data["Distance"] = shop_distance()
     report_data["Subtotal km"] = {
         shop: report_data["Visit count"][shop] * report_data["Distance"][shop]

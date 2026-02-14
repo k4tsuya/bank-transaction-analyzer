@@ -19,6 +19,11 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Generate a declaration report",
     )
+
+    parser.add_argument(
+        "--month",
+        help="Generate a month declaration report by proving the month number",
+    )
     parser.add_argument("--name", help="Filter and generate a report by name")
     parser.add_argument("--iban", help="Filter and generate a report by IBAN")
     parser.add_argument(

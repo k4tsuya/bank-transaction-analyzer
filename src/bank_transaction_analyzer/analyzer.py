@@ -38,9 +38,9 @@ class ShopTerminal:
     eldee: str = "BCK*Eldee Pak Pak"
 
 
-def count_shop_visits() -> dict[str, int]:
+def count_shop_visits(month: str | None) -> dict[str, int]:
     """Count visits to each shop in the shop list."""
-    store_count: dict[str, int] = {
+    store_count = {
         "Hanos": 0,
         "Sligro": 0,
         "Makro": 0,
@@ -48,7 +48,15 @@ def count_shop_visits() -> dict[str, int]:
         "Eldee": 0,
     }
 
+    if month:
+        month = month.zfill(2)  # Fix 1-digit month input
+
     for item in bank_data:
+        date = item[4]
+
+        if month and date[5:7] != month:
+            continue
+
         terminal_name = item[9]
 
         if terminal_name == ShopTerminal.hanos:

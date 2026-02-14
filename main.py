@@ -6,6 +6,7 @@ from src.bank_transaction_analyzer.report_generation import (
     generate_bank_number_results,
     generate_date_filter_report,
     generate_declaration_report,
+    generate_month_report,
     generate_name_results,
 )
 
@@ -19,6 +20,8 @@ if __name__ == "__main__":
         bank_data = load_bank_data(args.input)
     if args.declaration:
         generate_declaration_report()
+    elif args.month:
+        generate_month_report(args.month)
     elif args.name:
         generate_name_results(args.name)
     elif args.iban:
