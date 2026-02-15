@@ -39,13 +39,27 @@ class ShopTerminal:
 
 
 def count_shop_visits(month: str | None) -> dict[str, int]:
-    """Count visits to each shop in the shop list."""
-    store_count = {
+    """
+    Count visits to each shop in the shop list.
+
+    Args:
+        month (str | None): The month to filter by providing the month number.
+
+    """
+    store_count: dict[str, int] = {
         "Hanos": 0,
         "Sligro": 0,
         "Makro": 0,
         "Horeca-Plus": 0,
         "Eldee": 0,
+    }
+
+    store_terminal: dict[str, str] = {
+        ShopTerminal.hanos: "Hanos",
+        ShopTerminal.sligro: "Sligro",
+        ShopTerminal.makro: "Makro",
+        ShopTerminal.horeca_plus: "Horeca-Plus",
+        ShopTerminal.eldee: "Eldee",
     }
 
     if month:
@@ -59,16 +73,8 @@ def count_shop_visits(month: str | None) -> dict[str, int]:
 
         terminal_name = item[9]
 
-        if terminal_name == ShopTerminal.hanos:
-            store_count["Hanos"] += 1
-        elif terminal_name == ShopTerminal.sligro:
-            store_count["Sligro"] += 1
-        elif terminal_name == ShopTerminal.makro:
-            store_count["Makro"] += 1
-        elif terminal_name == ShopTerminal.horeca_plus:
-            store_count["Horeca-Plus"] += 1
-        elif terminal_name == ShopTerminal.eldee:
-            store_count["Eldee"] += 1
+        if terminal_name in store_terminal:
+            store_count[store_terminal[terminal_name]] += 1
 
     return store_count
 
