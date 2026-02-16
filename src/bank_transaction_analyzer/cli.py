@@ -11,7 +11,10 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "--input",
-        help="Loads the file of the Rabobank CSV export, by default it loads bank_data.csv",
+        help=(
+            "Loads the file of the Rabobank CSV export, by default it loads "
+            "bank_data.csv"
+        ),
     )
 
     parser.add_argument(

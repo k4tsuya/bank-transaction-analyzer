@@ -8,7 +8,6 @@ from src.bank_transaction_analyzer.data_filter import (
     filter_name,
     filter_purchase_data,
     generate_declaration_data,
-    generate_month_data,
 )
 
 
@@ -32,7 +31,7 @@ class PDFReport(FPDF):
 
 def generate_declaration_report() -> None:
     """Generate and print the declaration report as a PDF."""
-    df = generate_declaration_data()
+    df = generate_declaration_data(None)
 
     total_km = df["Subtotal km"].sum()
 
@@ -48,7 +47,7 @@ def generate_declaration_report() -> None:
 
 def generate_month_report(month: str) -> None:
     """Generate and print the month declaration report as a PDF."""
-    df = generate_month_data(month)
+    df = generate_declaration_data(month)
 
     months = {
         "01": "January",

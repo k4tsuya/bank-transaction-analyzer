@@ -1,4 +1,4 @@
-"""Simple KM declaration script."""
+"""A simple bank analysis script."""
 
 from src.bank_transaction_analyzer.analyzer import load_bank_data
 from src.bank_transaction_analyzer.cli import parse_args
