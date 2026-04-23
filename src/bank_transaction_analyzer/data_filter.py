@@ -38,6 +38,7 @@ def filter_dates(
     end_date: str | None,
 ) -> pd.DataFrame:
     """Filter bank data for a specific date."""
+    # Sets default value for end date.
     end_date = end_date if end_date else start_date
     data = {"Filtered Purchases": []}
 
