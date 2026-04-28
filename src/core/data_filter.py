@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from src.bank_transaction_analyzer.analyzer import (
+from src.core.analyzer import (
     bank_data,
     count_shop_visits,
     purchase_dates,

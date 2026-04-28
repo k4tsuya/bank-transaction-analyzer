@@ -2,7 +2,7 @@
 
 from fpdf import FPDF
 
-from src.bank_transaction_analyzer.data_filter import (
+from src.core.data_filter import (
     filter_bank_number,
     filter_dates,
     filter_name,

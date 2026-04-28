@@ -1,8 +1,8 @@
 """A simple bank analysis script."""
 
-from src.bank_transaction_analyzer.analyzer import load_bank_data
-from src.bank_transaction_analyzer.cli import parse_args
-from src.bank_transaction_analyzer.report_generation import (
+from src.core.analyzer import load_bank_data
+from src.core.cli import parse_args
+from src.core.report_generation import (
     generate_bank_number_results,
     generate_date_filter_report,
     generate_declaration_report,
