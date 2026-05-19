@@ -63,7 +63,18 @@ def count_shop_visits(month: str | None) -> dict[str, int]:
     }
 
     if month:
-        month = month.zfill(2)  # Fix 1-digit month input
+        try:
+            month_number = int(month)
+            if 1 <= month_number <= 12:
+                month = str(month_number).zfill(
+                    2,
+                )  # Fix 1-digit month input with .zfill()
+            else:
+                raise ValueError
+        except (ValueError, TypeError):
+            raise ValueError(
+                "Invalid month number. Please provide a number between 1 and 12.",
+            )
 
     for item in bank_data:
         date = item[4]
