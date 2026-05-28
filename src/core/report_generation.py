@@ -53,7 +53,6 @@ def generate_declaration_report() -> None:
             print("Declaration report generated: km_declaration_report.pdf")
         else:
             _raise_no_data_error()
-
     except ValueError:
         print("No data to generate.")
 
@@ -94,7 +93,6 @@ def generate_month_report(month: str) -> None:
             )
         else:
             _raise_no_data_error()
-
     except ValueError:
         print("No data to generate.")
 
@@ -104,23 +102,29 @@ def generate_purchase_report(shop_name: str) -> None:
     df = filter_purchase_data(shop_name)
     entries = len(df)
 
-    pdf = PDFReport()
-    pdf.report_title = f"Purchase Summary Report - {shop_name}"
-    pdf.add_page()
+    try:
+        if entries > 0:
+            pdf = PDFReport()
+            pdf.report_title = f"Purchase Summary Report - {shop_name}"
+            pdf.add_page()
 
-    pdf.set_font("Courier", size=6)
-    pdf.cell(0, 5, "_" * 60)
-    pdf.add_table(df.to_string(index=False, justify="right"))
+            pdf.set_font("Courier", size=6)
+            pdf.cell(0, 5, "_" * 60)
+            pdf.add_table(df.to_string(index=False, justify="right"))
 
-    pdf.cell(0, 5, "_" * 60)
-    pdf.ln()
-    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+            pdf.cell(0, 5, "_" * 60)
+            pdf.ln()
+            pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
-    pdf.output(f"{shop_name}_purchase_report.pdf")
-    print(
-        f"Purchase report for {shop_name} has been generated: "
-        f"{shop_name}_purchase_report.pdf",
-    )
+            pdf.output(f"{shop_name}_purchase_report.pdf")
+            print(
+                f"Purchase report for {shop_name} has been generated: "
+                f"{shop_name}_purchase_report.pdf",
+            )
+        else:
+            _raise_no_data_error()
+    except ValueError:
+        print("No data to generate.")
 
 
 def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
@@ -128,86 +132,97 @@ def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
     df = filter_dates(start_date, end_date)
     entries = len(df)
 
-    pdf = PDFReport()
-    pdf.report_title = (
-        f"Date Summary Report  {start_date} - {end_date or start_date}"
-    )
-    pdf.add_page()
+    try:
+        if entries > 0:
+            pdf = PDFReport()
+            pdf.report_title = (
+                f"Date Summary Report  {start_date} - {end_date or start_date}"
+            )
+            pdf.add_page()
 
-    pdf.set_font("Courier", size=6)
-    pdf.cell(0, 5, "_" * 60, ln=True)
+            pdf.set_font("Courier", size=6)
+            pdf.cell(0, 5, "_" * 60, ln=True)
 
-    table = [
-        ("Date", 20, "L"),
-        ("Counter Party", 50, "L"),
-        ("Amount", 10, "R"),
-        ("IBAN", 25, "L"),
-        ("Description", 100, "L"),
-    ]
+            table = [
+                ("Date", 20, "L"),
+                ("Counter Party", 50, "L"),
+                ("Amount", 10, "R"),
+                ("IBAN", 25, "L"),
+                ("Description", 100, "L"),
+            ]
 
-    for title, width, _ in table:
-        pdf.cell(width, 5, title, align="L")
-    pdf.ln()
+            for title, width, _ in table:
+                pdf.cell(width, 5, title, align="L")
+            pdf.ln()
 
-    for _, row in df.iterrows():
-        for title, width, align in table:
-            pdf.cell(width, 5, str(row[title])[:60], align=align)
-        pdf.ln()
+            for _, row in df.iterrows():
+                for title, width, align in table:
+                    pdf.cell(width, 5, str(row[title])[:60], align=align)
+                pdf.ln()
 
-    pdf.cell(0, 5, "_" * 60)
-    pdf.ln()
-    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+            pdf.cell(0, 5, "_" * 60)
+            pdf.ln()
+            pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
-    if end_date is None:
-        pdf.output(f"{start_date}_report.pdf")
-        print(
-            f"A report for the dates has been generated: {start_date}_report.pdf",
-        )
-    else:
-        pdf.output(f"{start_date}_{end_date}_report.pdf")
-        print(
-            "A report for the dates has been generated: "
-            f"{start_date}_{end_date}_report.pdf",
-        )
+            if end_date is None:
+                pdf.output(f"{start_date}_report.pdf")
+                print(
+                    f"A report for the dates has been generated: {start_date}_report.pdf",
+                )
+            else:
+                pdf.output(f"{start_date}_{end_date}_report.pdf")
+                print(
+                    "A report for the dates has been generated: "
+                    f"{start_date}_{end_date}_report.pdf",
+                )
+        else:
+            _raise_no_data_error()
+    except ValueError:
+        print("No data to generate.")
 
 
 def generate_bank_number_results(iban: str) -> None:
     """Generate and print the bank number-specific report as a PDF."""
     df = filter_bank_number(iban)
     entries = len(df)
+    try:
+        if entries > 0:
+            pdf = PDFReport()
+            pdf.report_title = f"Bank Number Search Result - ({iban})"
+            pdf.add_page()
+            pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+            pdf.ln()
+            pdf.set_font("Courier", size=8)
+            pdf.cell(0, 5, "_" * 60, ln=True)
+            table = [
+                ("IBAN", 35, "L"),
+                ("Date", 20, "L"),
+                ("Counter Party", 60, "L"),
+                ("Amount", 15, "R"),
+                ("Description", 80, "L"),
+            ]
 
-    pdf = PDFReport()
-    pdf.report_title = f"Bank Number Search Result - ({iban})"
-    pdf.add_page()
-    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
-    pdf.ln()
-    pdf.set_font("Courier", size=8)
-    pdf.cell(0, 5, "_" * 60, ln=True)
-    table = [
-        ("IBAN", 35, "L"),
-        ("Date", 20, "L"),
-        ("Counter Party", 60, "L"),
-        ("Amount", 15, "R"),
-        ("Description", 80, "L"),
-    ]
+            for title, width, _ in table:
+                pdf.cell(width, 5, title, align="R")
+            pdf.ln()
 
-    for title, width, _ in table:
-        pdf.cell(width, 5, title, align="R")
-    pdf.ln()
+            for _, row in df.iterrows():
+                for title, width, align in table:
+                    pdf.cell(width, 5, str(row[title])[:35], align=align)
+                pdf.ln()
 
-    for _, row in df.iterrows():
-        for title, width, align in table:
-            pdf.cell(width, 5, str(row[title])[:35], align=align)
-        pdf.ln()
+            pdf.cell(0, 5, "_" * 60)
+            pdf.ln()
+            pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
-    pdf.cell(0, 5, "_" * 60)
-    pdf.ln()
-    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
-
-    pdf.output(f"bank_number_{iban}_report.pdf")
-    print(
-        f"A report for bank number {iban} was generated: bank_number_{iban}_report.pdf"
-    )
+            pdf.output(f"bank_number_{iban}_report.pdf")
+            print(
+                f"A report for bank number {iban} was generated: bank_number_{iban}_report.pdf"
+            )
+        else:
+            _raise_no_data_error()
+    except ValueError:
+        print("No data to generate.")
 
 
 def generate_name_results(name: str) -> None:
@@ -215,33 +230,41 @@ def generate_name_results(name: str) -> None:
     df = filter_name(name)
     entries = len(df)
 
-    pdf = PDFReport()
-    pdf.report_title = f"Name Search Result - ({name})"
-    pdf.add_page()
+    try:
+        if entries > 0:
+            pdf = PDFReport()
+            pdf.report_title = f"Name Search Result - ({name})"
+            pdf.add_page()
 
-    pdf.set_font("Courier", size=6)
+            pdf.set_font("Courier", size=6)
 
-    pdf.cell(0, 5, "_" * 60, ln=True)
-    table = [
-        ("IBAN", 35, "L"),
-        ("Name", 60, "L"),
-        ("Date", 20, "L"),
-        ("Amount", 15, "R"),
-        ("Description", 80, "L"),
-    ]
+            pdf.cell(0, 5, "_" * 60, ln=True)
+            table = [
+                ("IBAN", 35, "L"),
+                ("Name", 60, "L"),
+                ("Date", 20, "L"),
+                ("Amount", 15, "R"),
+                ("Description", 80, "L"),
+            ]
 
-    for title, width, _ in table:
-        pdf.cell(width, 5, title, align="L")
-    pdf.ln()
+            for title, width, _ in table:
+                pdf.cell(width, 5, title, align="L")
+            pdf.ln()
 
-    for _, row in df.iterrows():
-        for title, width, align in table:
-            pdf.cell(width, 5, str(row[title])[:35], align=align)
-        pdf.ln()
+            for _, row in df.iterrows():
+                for title, width, align in table:
+                    pdf.cell(width, 5, str(row[title])[:35], align=align)
+                pdf.ln()
 
-    pdf.cell(0, 5, "_" * 60)
-    pdf.ln()
-    pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
+            pdf.cell(0, 5, "_" * 60)
+            pdf.ln()
+            pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
-    pdf.output(f"{name}_report.pdf")
-    print(f"A report for {name} has been generated as: {name}_report.pdf")
+            pdf.output(f"{name}_report.pdf")
+            print(
+                f"A report for {name} has been generated as: {name}_report.pdf"
+            )
+        else:
+            _raise_no_data_error()
+    except ValueError:
+        print("No data to generate.")
