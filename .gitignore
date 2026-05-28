@@ -213,3 +213,4 @@ bank_data.csv
 .devcontainer
 *.pdf
 notes.txt
+temp/

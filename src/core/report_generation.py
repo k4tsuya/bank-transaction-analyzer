@@ -11,6 +11,12 @@ from src.core.data_filter import (
 )
 
 
+def _raise_no_data_error() -> None:
+    """Raise an error when no data is found for report generation."""
+    msg = "No data found for report generation."
+    raise ValueError(msg)
+
+
 class PDFReport(FPDF):
     """PDF Report Layout."""
 
@@ -35,14 +41,21 @@ def generate_declaration_report() -> None:
 
     total_km = df["Subtotal km"].sum()
 
-    pdf = PDFReport()
-    pdf.report_title = "KM Declaration Report"
-    pdf.add_page()
-    pdf.set_font("Courier", size=8)
-    pdf.add_table(df.to_string(justify="right"))
-    pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
-    pdf.output("km_declaration_report.pdf")
-    print("Declaration report generated: km_declaration_report.pdf")
+    try:
+        if total_km > 0:
+            pdf = PDFReport()
+            pdf.report_title = "KM Declaration Report"
+            pdf.add_page()
+            pdf.set_font("Courier", size=8)
+            pdf.add_table(df.to_string(justify="right"))
+            pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
+            pdf.output("km_declaration_report.pdf")
+            print("Declaration report generated: km_declaration_report.pdf")
+        else:
+            _raise_no_data_error()
+
+    except ValueError:
+        print("No data to generate.")
 
 
 def generate_month_report(month: str) -> None:
@@ -67,14 +80,23 @@ def generate_month_report(month: str) -> None:
 
     total_km = df["Subtotal km"].sum()
 
-    pdf = PDFReport()
-    pdf.report_title = f"KM Declaration Report - {month_name}"
-    pdf.add_page()
-    pdf.set_font("Courier", size=8)
-    pdf.add_table(df.to_string(justify="right"))
-    pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
-    pdf.output("month_km_declaration_report.pdf")
-    print("Declaration report generated: month_km_declaration_report.pdf")
+    try:
+        if total_km > 0:
+            pdf = PDFReport()
+            pdf.report_title = f"KM Declaration Report - {month_name}"
+            pdf.add_page()
+            pdf.set_font("Courier", size=8)
+            pdf.add_table(df.to_string(justify="right"))
+            pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
+            pdf.output("month_km_declaration_report.pdf")
+            print(
+                "Declaration report generated: month_km_declaration_report.pdf"
+            )
+        else:
+            _raise_no_data_error()
+
+    except ValueError:
+        print("No data to generate.")
 
 
 def generate_purchase_report(shop_name: str) -> None:
