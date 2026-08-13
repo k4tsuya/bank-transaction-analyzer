@@ -3,7 +3,9 @@
 import pandas as pd
 
 from src.core.analyzer import (
-    bank_data,
+    bank_data as _bank_data,
+)
+from src.core.analyzer import (
     count_shop_visits,
     purchase_dates,
     shop_distance,
@@ -12,7 +14,7 @@ from src.core.analyzer import (
 
 def generate_declaration_data(month: str | None) -> pd.DataFrame:
     """Generate and print a report."""
-    report_data = {}
+    report_data: dict[str, dict[str, int] | dict[str, float]] = {}
 
     report_data["Visit count"] = count_shop_visits(month)
     report_data["Distance"] = shop_distance()
@@ -40,9 +42,9 @@ def filter_dates(
     """Filter bank data for a specific date."""
     # Sets default value for end date.
     end_date = end_date if end_date else start_date
-    data = {"Filtered Purchases": []}
+    data: dict[str, list] = {"Filtered Purchases": []}
 
-    for item in bank_data:
+    for item in _bank_data:
         date = item[4]
         counter_iban = item[8]
         counter_party = item[9]
@@ -63,9 +65,9 @@ def filter_dates(
 
 def filter_bank_number(iban: str) -> pd.DataFrame:
     """Filter bank data for a specific IBAN number."""
-    data = {iban: []}
+    data: dict[str, list] = {iban: []}
 
-    for item in bank_data:
+    for item in _bank_data:
         counter_party_iban = item[8]
         date = item[4]
         counter_party = item[9]
@@ -87,9 +89,9 @@ def filter_bank_number(iban: str) -> pd.DataFrame:
 
 def filter_name(name: str) -> pd.DataFrame:
     """Filter bank data for a specific name."""
-    data = {name: []}
+    data: dict[str, list] = {name: []}
 
-    for item in bank_data:
+    for item in _bank_data:
         counter_party_name = item[9]
         date = item[4]
         iban = item[8]

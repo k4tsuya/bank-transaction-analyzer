@@ -71,10 +71,9 @@ def count_shop_visits(month: str | None) -> dict[str, int]:
                 )  # Fix 1-digit month input with .zfill()
             else:
                 raise ValueError
-        except (ValueError, TypeError):
-            raise ValueError(
-                "Invalid month number. Please provide a number between 1 and 12.",
-            )
+        except (ValueError, TypeError) as exc:
+            msg = f"Invalid month input: 'str({month})'. Please provide a valid month number (1-12)."
+            raise ValueError(msg) from exc
 
     for item in bank_data:
         date = item[4]
@@ -151,8 +150,7 @@ def purchase_dates(shop_name: str) -> dict[str, list[dict[str, str]]]:
             or (shop_name == "Sligro" and terminal_name == ShopTerminal.sligro)
             or (shop_name == "Makro" and terminal_name == ShopTerminal.makro)
             or (
-                shop_name == "Horeca-Plus"
-                and terminal_name == ShopTerminal.horeca_plus
+                shop_name == "Horeca-Plus" and terminal_name == ShopTerminal.horeca_plus
             )
             or (shop_name == "Eldee" and terminal_name == ShopTerminal.eldee)
         ):

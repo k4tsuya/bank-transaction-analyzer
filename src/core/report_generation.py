@@ -88,9 +88,7 @@ def generate_month_report(month: str) -> None:
             pdf.add_table(df.to_string(justify="right"))
             pdf.cell(0, 10, f"Total km: {total_km}", ln=True)
             pdf.output("month_km_declaration_report.pdf")
-            print(
-                "Declaration report generated: month_km_declaration_report.pdf"
-            )
+            print("Declaration report generated: month_km_declaration_report.pdf")
         else:
             _raise_no_data_error()
     except ValueError:
@@ -261,9 +259,7 @@ def generate_name_results(name: str) -> None:
             pdf.cell(0, 5, f" Found {entries} entries", ln=True, align="L")
 
             pdf.output(f"{name}_report.pdf")
-            print(
-                f"A report for {name} has been generated as: {name}_report.pdf"
-            )
+            print(f"A report for {name} has been generated as: {name}_report.pdf")
         else:
             _raise_no_data_error()
     except ValueError:
