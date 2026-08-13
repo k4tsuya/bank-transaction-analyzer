@@ -1,6 +1,11 @@
 import pytest
 
-from src.core.analyzer import load_bank_data, count_shop_visits, shop_distance, purchase_dates
+from src.core.analyzer import (
+    count_shop_visits,
+    load_bank_data,
+    purchase_dates,
+    shop_distance,
+)
 
 
 def test_load_bank_data():
@@ -50,8 +55,7 @@ def test_purchase_dates_existing_shop_returns_records():
     records = result["Sligro"]
     assert records
     assert all(
-        set(record) == {"Date", "Debit/Credit", "Transaction ID"}
-        for record in records
+        set(record) == {"Date", "Debit/Credit", "Transaction ID"} for record in records
     )
     assert all(isinstance(record["Date"], str) for record in records)
     assert all(isinstance(record["Debit/Credit"], str) for record in records)
