@@ -58,7 +58,14 @@ def generate_declaration_report() -> None:
 
 
 def generate_month_report(month: str) -> None:
-    """Generate and print the month declaration report as a PDF."""
+    """
+    Generate and print the month declaration report as a PDF.
+
+    The report includes visit counts, distances, and subtotal kilometers for the specified month.
+
+    Args:
+        month (str): The month for which to generate the report, in "MM" format
+    """
     df = generate_declaration_data(month)
 
     months = {
@@ -96,7 +103,16 @@ def generate_month_report(month: str) -> None:
 
 
 def generate_purchase_report(shop_name: str) -> None:
-    """Generate and print the purchase report as a PDF."""
+    """
+    Generate and print the purchase report as a PDF.
+
+    The report includes transaction details for the specified shop.
+
+    Args:
+        shop_name (str): The name of the shop for which to generate the report.
+    Raises:
+        ValueError: If no data is found for the specified shop.
+    """
     df = filter_purchase_data(shop_name)
     entries = len(df)
 
@@ -126,7 +142,16 @@ def generate_purchase_report(shop_name: str) -> None:
 
 
 def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
-    """Generate and print the date-specific report as a PDF."""
+    """
+    Generate and print the date-specific report as a PDF.
+
+    The report includes transaction details for the specified date range.
+    Args:
+        start_date (str): The start date for filtering transactions.
+        end_date (str | None): The end date for filtering transactions. If None, only the start date is considered.
+    Raises:
+        ValueError: If no data is found for the specified date range.
+    """
     df = filter_dates(start_date, end_date)
     entries = len(df)
 
@@ -180,7 +205,15 @@ def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
 
 
 def generate_bank_number_results(iban: str) -> None:
-    """Generate and print the bank number-specific report as a PDF."""
+    """
+    Generate and print the bank number-specific report as a PDF.
+
+    The report includes transaction details for the specified IBAN number.
+
+    Args:
+        iban (str): The IBAN number for which to generate the report.
+    Raises:
+        ValueError: If no data is found for the specified IBAN number."""
     df = filter_bank_number(iban)
     entries = len(df)
     try:
@@ -224,7 +257,16 @@ def generate_bank_number_results(iban: str) -> None:
 
 
 def generate_name_results(name: str) -> None:
-    """Generate and print the name-specific report as a PDF."""
+    """
+    Generate and print the name-specific report as a PDF.
+
+    The report includes transaction details for the specified name.
+
+    Args:
+        name (str): The name for which to generate the report.
+    Raises:
+        ValueError: If no data is found for the specified name.
+    """
     df = filter_name(name)
     entries = len(df)
 
