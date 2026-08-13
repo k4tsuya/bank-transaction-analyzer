@@ -10,6 +10,8 @@ from src.core.data_filter import (
     generate_declaration_data,
 )
 
+NO_DATA_MESSAGE = "No data to generate."
+
 
 def _raise_no_data_error() -> None:
     """Raise an error when no data is found for report generation."""
@@ -54,7 +56,7 @@ def generate_declaration_report() -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
 
 
 def generate_month_report(month: str) -> None:
@@ -99,7 +101,7 @@ def generate_month_report(month: str) -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
 
 
 def generate_purchase_report(shop_name: str) -> None:
@@ -138,7 +140,7 @@ def generate_purchase_report(shop_name: str) -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
 
 
 def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
@@ -201,7 +203,7 @@ def generate_date_filter_report(start_date: str, end_date: str | None) -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
 
 
 def generate_bank_number_results(iban: str) -> None:
@@ -253,7 +255,7 @@ def generate_bank_number_results(iban: str) -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
 
 
 def generate_name_results(name: str) -> None:
@@ -305,4 +307,4 @@ def generate_name_results(name: str) -> None:
         else:
             _raise_no_data_error()
     except ValueError:
-        print("No data to generate.")
+        print(f"{NO_DATA_MESSAGE}")
